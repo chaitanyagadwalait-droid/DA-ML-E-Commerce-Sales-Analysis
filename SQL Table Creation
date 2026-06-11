@@ -1,0 +1,43 @@
+# Create Sql Tables
+CREATE TABLE customer_detail (
+    id VARCHAR(20) PRIMARY KEY,
+    registered_date DATE
+);
+CREATE TABLE payment_detail (
+    id INT PRIMARY KEY,
+    payment_method VARCHAR(50)
+);
+CREATE TABLE sku_detail (
+    id VARCHAR(20) PRIMARY KEY,
+    sku_name VARCHAR(255),
+    base_price NUMERIC(15,2),
+    cogs NUMERIC(15,2),
+    category VARCHAR(100)
+);
+drop table order_detail;
+CREATE TABLE order_detail (
+    id VARCHAR(30),
+    customer_id VARCHAR(20),
+    order_date DATE,
+    sku_id VARCHAR(20),
+    price NUMERIC(15,2),
+    qty_ordered INT,
+    before_discount NUMERIC(15,2),
+    discount_amount NUMERIC(15,2),
+    after_discount NUMERIC(15,2),
+    is_gross BOOLEAN,
+    is_valid BOOLEAN,
+    is_net BOOLEAN,
+    payment_id INT,
+
+    PRIMARY KEY (id, sku_id),
+
+    FOREIGN KEY (customer_id)
+        REFERENCES customer_detail(id),
+
+    FOREIGN KEY (sku_id)
+        REFERENCES sku_detail(id),
+
+    FOREIGN KEY (payment_id)
+        REFERENCES payment_detail(id)
+);
